@@ -1,0 +1,3 @@
+CREATE USER docker_admin WITH PASSWORD 'd0ck3rp$$wrd';
+CREATE DATABASE mydb;
+GRANT ALL PRIVILEGES ON DATABASE mydb TO docker_admin;

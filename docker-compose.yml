@@ -1,0 +1,134 @@
+version: '3.8'
+
+services:
+  node_app:
+    build: ./backend/node_app
+    container_name: node_app
+    ports:
+      - "3000:3000"
+    networks:
+      - dev_network
+    volumes:
+      - ./backend/node_app:/app
+    profiles:
+      - node
+
+  flask_app:
+    build: ./backend/python/flask_app
+    container_name: flask_app
+    ports:
+      - "5000:5000"
+    networks:
+      - dev_network
+    volumes:
+      - ./backend/python/flask_app:/app
+    profiles:
+      - flask
+
+  django_app:
+    build: ./backend/python/django_app
+    container_name: django_app
+    ports:
+      - "8000:8000"
+    networks:
+      - dev_network
+    volumes:
+      - ./backend/python/django_app:/app
+    profiles:
+      - django
+
+  ruby_app:
+    build: ./backend/ruby_app
+    container_name: ruby_app
+    ports:
+      - "3001:3001"
+    networks:
+      - dev_network
+    volumes:
+      - ./backend/ruby_app:/app
+    depends_on:
+      - postgres
+    environment:
+      - RAILS_ENV=development
+    profiles:
+      - ruby
+
+  vue_app:
+    build: ./frontend/vue_app
+    container_name: vue_app
+    ports:
+      - "8080:8080"
+    networks:
+      - dev_network
+    volumes:
+      - ./frontend/vue_app:/app
+    profiles:
+      - vue
+
+  postgres:
+    build: ./data_base/postgres
+    container_name: postgres
+    ports:
+      - "5433:5432"
+    networks:
+      - dev_network
+    environment:
+      POSTGRES_USER: docker_admin
+      POSTGRES_PASSWORD: d0ck3rp$$wrd
+      POSTGRES_DB: mydb
+    profiles:
+      - postgres
+
+  mongodb:
+    build: ./data_base/mongodb
+    container_name: mongodb
+    ports:
+      - "27018:27017"
+    networks:
+      - dev_network
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: docker_admin
+      MONGO_INITDB_ROOT_PASSWORD: d0ck3rp$$wrd
+      MONGO_INITDB_DATABASE: mydb
+    profiles:
+      - mongodb
+
+  firebase:
+    build: ./data_base/firebase
+    container_name: firebase
+    ports:
+      - "4000:4000"
+      - "9000:9000"
+    networks:
+      - dev_network
+    profiles:
+      - firebase
+
+  mysql:
+    build: ./data_base/mysql
+    container_name: mysql
+    ports:
+      - "3307:3306"
+    networks:
+      - dev_network
+    environment:
+      MYSQL_ROOT_PASSWORD: d0ck3rp$$wrd
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: docker_admin
+      MYSQL_PASSWORD: d0ck3rp$$wrd
+    profiles:
+      - mysql
+
+  redis:
+    image: redis:7.2.3
+    container_name: redis
+    ports:
+      - "6380:6379"
+    networks:
+      - dev_network
+    profiles:
+      - redis
+
+networks:
+  dev_network:
+    driver: bridge
