@@ -2,7 +2,7 @@
 DO $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'docker_admin') THEN
-        CREATE USER docker_admin WITH PASSWORD 'd0ck3rp$$wrd';
+        CREATE USER docker_admin WITH PASSWORD 'd0ck3rpsswrd';
     END IF;
 END
 $$;

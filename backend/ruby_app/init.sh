@@ -22,7 +22,7 @@ default: &default
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: docker_admin
-  password: d0ck3rp$$wrd
+  password: d0ck3rpsswrd
   host: postgres
 
 development:

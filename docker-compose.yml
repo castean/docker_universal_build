@@ -73,7 +73,7 @@ services:
       - dev_network
     environment:
       POSTGRES_USER: docker_admin
-      POSTGRES_PASSWORD: d0ck3rp$$wrd
+      POSTGRES_PASSWORD: d0ck3rpsswrd
       POSTGRES_DB: mydb
     profiles:
       - postgres
@@ -87,7 +87,7 @@ services:
       - dev_network
     environment:
       MONGO_INITDB_ROOT_USERNAME: docker_admin
-      MONGO_INITDB_ROOT_PASSWORD: d0ck3rp$$wrd
+      MONGO_INITDB_ROOT_PASSWORD: d0ck3rpsswrd
       MONGO_INITDB_DATABASE: mydb
     profiles:
       - mongodb
@@ -111,10 +111,10 @@ services:
     networks:
       - dev_network
     environment:
-      MYSQL_ROOT_PASSWORD: d0ck3rp$$wrd
+      MYSQL_ROOT_PASSWORD: d0ck3rpsswrd
       MYSQL_DATABASE: mydb
       MYSQL_USER: docker_admin
-      MYSQL_PASSWORD: d0ck3rp$$wrd
+      MYSQL_PASSWORD: d0ck3rpsswrd
     profiles:
       - mysql
 

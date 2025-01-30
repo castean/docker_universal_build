@@ -9,13 +9,18 @@ cd /app/$APP_NAME
 
 # Inicializar un proyecto Vue si no existe
 if [ ! -f package.json ]; then
-  npm install -g @vue/cli
-  vue create . -n -d
-fi
+  # Crear el proyecto Vue con las opciones predeterminadas (usando vue CLI)
+  vue create $APP_NAME --default
 
-# Instalar dependencias
-npm install
+  # Instalar dependencias necesarias de forma predeterminada
+  npm install axios pinia quasar vuetest typescript
+
+  # Instalar dependencias necesarias de Vue para pruebas unitarias
+  npm install @vue/test-utils vue-jest jest --save-dev
+fi
 
 # Iniciar la aplicación
 echo "Proyecto Vue '$APP_NAME' creado en /app/$APP_NAME"
+
+# Ejecutar el servidor de desarrollo
 npm run serve
