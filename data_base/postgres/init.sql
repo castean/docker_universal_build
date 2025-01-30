@@ -2,13 +2,9 @@
 \c postgres;
 
 -- Verificar si la base de datos existe y crearla solo si no existe
-SELECT 'La base de datos "development_db" ya existe' 
-WHERE EXISTS (SELECT 1 FROM pg_database WHERE datname = 'development_db');
-
-SELECT 'Creando la base de datos "development_db"' 
+SELECT 'CREATE DATABASE development_db' 
 WHERE NOT EXISTS (SELECT 1 FROM pg_database WHERE datname = 'development_db')
 \gexec
-CREATE DATABASE development_db;
 
 -- Conectarse a la base de datos creada
 \c development_db;
