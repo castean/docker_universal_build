@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Preguntar el nombre de la aplicación
-read -p "Nombre de la aplicación Flask: " APP_NAME
+read -p "Nombre de la aplicación Flask: " user_appAPP_NAME
+APP_NAME=${APP_NAME:users_creations}
 
 # Crear la estructura base dentro de /app
 mkdir -p /app/$APP_NAME
