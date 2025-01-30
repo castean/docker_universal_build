@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   node_app:
     build: ./backend/node_app
@@ -17,11 +15,12 @@ services:
     build: ./backend/python/flask_app
     container_name: flask_app
     ports:
-      - "5000:5000"
+      - "5001:5000"
     networks:
       - dev_network
     volumes:
       - ./backend/python/flask_app:/app
+    stdin_open: true
     profiles:
       - flask
 
