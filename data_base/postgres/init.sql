@@ -7,18 +7,20 @@ BEGIN
 END
 $$;
 
--- Crear la base de datos solo si no existe
--- Primero, comprobamos si la base de datos ya existe
+-- Verificar si la base de datos existe y crearla si no existe
 SELECT 
-    CASE 
+    CASE
         WHEN NOT EXISTS (SELECT 1 FROM pg_database WHERE datname = 'development_db') THEN
-            RAISE NOTICE 'Creando la base de datos "development_db"';
-            PERFORM dblink_exec('host=localhost user=postgres password=secret dbname=postgres', 'CREATE DATABASE development_db');
+            'Creando la base de datos "development_db"'
         ELSE
-            RAISE NOTICE 'La base de datos "development_db" ya existe';
-    END CASE;
+            'La base de datos "development_db" ya existe'
+    END;
 
--- Conectar a la base de datos 'development_db' para otorgar privilegios
+-- Creación de la base de datos fuera de un bloque DO, se ejecuta directamente
+-- Solo se ejecutará si no existe previamente la base de datos
+CREATE DATABASE IF NOT EXISTS development_db;
+
+-- Conectar a la base de datos 'development_db' después de su creación
 \c development_db;
 
 -- Otorgar privilegios solo si la base de datos existe
