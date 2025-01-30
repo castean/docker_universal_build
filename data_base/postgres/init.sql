@@ -1,27 +1,29 @@
--- Crear el usuario solo si no existe
-DO $$
+-- Conectarse a la base de datos principal
+\c postgres;
+
+-- Verificar si la base de datos existe y crearla solo si no existe
+SELECT 'La base de datos "development_db" ya existe' 
+WHERE EXISTS (SELECT 1 FROM pg_database WHERE datname = 'development_db');
+
+SELECT 'Creando la base de datos "development_db"' 
+WHERE NOT EXISTS (SELECT 1 FROM pg_database WHERE datname = 'development_db')
+\gexec
+CREATE DATABASE development_db;
+
+-- Conectarse a la base de datos creada
+\c development_db;
+
+-- Crear usuario si no existe y actualizar la contraseña si ya existe
+DO
+$$
 BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'docker_admin') THEN
+    IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'docker_admin') THEN
         CREATE USER docker_admin WITH PASSWORD 'd0ck3rpsswrd';
+    ELSE
+        ALTER USER docker_admin WITH PASSWORD 'd0ck3rpsswrd';
     END IF;
 END
 $$;
 
--- Verificar si la base de datos existe y crearla si no existe
-SELECT 
-    CASE
-        WHEN NOT EXISTS (SELECT 1 FROM pg_database WHERE datname = 'development_db') THEN
-            'Creando la base de datos "development_db"'
-        ELSE
-            'La base de datos "development_db" ya existe'
-    END;
-
--- Creación de la base de datos fuera de un bloque DO, se ejecuta directamente
--- Solo se ejecutará si no existe previamente la base de datos
-CREATE DATABASE IF NOT EXISTS development_db;
-
--- Conectar a la base de datos 'development_db' después de su creación
-\c development_db;
-
--- Otorgar privilegios solo si la base de datos existe
+-- Asignar permisos al usuario
 GRANT ALL PRIVILEGES ON DATABASE development_db TO docker_admin;
